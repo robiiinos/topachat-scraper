@@ -72,6 +72,9 @@ class CheckProductAvailability extends Command
                 }
             } else {
                 // The product is not available anymore in their catalog.
+                $product->update([
+                    'is_available' => false,
+                ]);
 
                 $this->info('This product has been delisted.');
             }
