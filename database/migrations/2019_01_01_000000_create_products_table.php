@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name', 255);
             $table->longText('url');
-            $table->boolean('is_available');
+            $table->boolean('is_available')->default(false);
             $table->timestamps();
         });
     }
