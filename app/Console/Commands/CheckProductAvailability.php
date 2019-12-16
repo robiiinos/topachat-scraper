@@ -36,6 +36,8 @@ class CheckProductAvailability extends Command
      * Execute the console command.
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function handle()
     {
@@ -80,6 +82,8 @@ class CheckProductAvailability extends Command
                 $product->update([
                     'is_available' => false,
                 ]);
+
+                $product->delete();
 
                 $this->info('This product has been delisted.');
             }
