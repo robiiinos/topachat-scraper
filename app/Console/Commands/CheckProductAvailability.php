@@ -74,8 +74,14 @@ class CheckProductAvailability extends Command
                     ]);
 
                     $this->info('This product is being resupplied (not in stock at the moment).');
+                } elseif ($availability[1] === 'stock-epuise') {
+                    $product->update([
+                        'is_available' => false,
+                    ]);
+
+                    $this->info('This product has reached End Of Life (EOL) and will not be resupplied.');
                 } else {
-                    $this->info('Could not determine if the product is in stock or not.');
+                    $this->info('Could not determine if the product is in stock or not; the key was : ' . $availability[1] . '.');
                 }
             } else {
                 // The product is not available anymore in their catalog.
