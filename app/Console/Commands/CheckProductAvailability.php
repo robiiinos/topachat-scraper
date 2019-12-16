@@ -13,7 +13,7 @@ class CheckProductAvailability extends Command
      *
      * @var string
      */
-    protected $signature = 'product:check:availability';
+    protected $signature = 'product:check';
 
     /**
      * The console command description.
@@ -51,18 +51,23 @@ class CheckProductAvailability extends Command
 
             $url = $response->getUri();
             if ($url === $product->url) {
-                $node = $response->filter('.cart-box')->first();
-                $class = $node->attr('class');
+                $availabilityNode = $response->filter('.cart-box')->first();
+                $priceNode = $response->filter('.priceFinal')->last();
 
-                $availability = explode(' ', $class);
+                $availabilityClass = $availabilityNode->attr('class');
+                $priceContent = $priceNode->attr('content');
+
+                $availability = explode(' ', $availabilityClass);
                 if ($availability[1] === 'en-stock') {
                     $product->update([
+                        'price' => $priceContent,
                         'is_available' => true,
                     ]);
 
                     $this->info('This product is in stock.');
                 } elseif ($availability[1] === 'en-cours-de-reappro') {
                     $product->update([
+                        'price' => $priceContent,
                         'is_available' => false,
                     ]);
 

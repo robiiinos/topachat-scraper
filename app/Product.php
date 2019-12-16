@@ -19,7 +19,7 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'url', 'is_available',
+        'name', 'url', 'price', 'is_available',
     ];
 
     /**
@@ -39,4 +39,26 @@ class Product extends Model
     protected $dates = [
         'created_at', 'updated_at',
     ];
+
+    /**
+     * Get the product's price.
+     *
+     * @param  integer  $value
+     * @return integer
+     */
+    public function getPriceAttribute($value)
+    {
+        return $value / 1e2;
+    }
+
+    /**
+     * Set the product's price.
+     *
+     * @param  integer  $value
+     * @return void
+     */
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = $value * 1e2;
+    }
 }
