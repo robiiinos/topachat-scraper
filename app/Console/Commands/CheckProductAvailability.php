@@ -53,16 +53,19 @@ class CheckProductAvailability extends Command
 
             $url = $response->getUri();
             if ($url === $product->url) {
-                $availabilityNode = $response->filter('.cart-box')->first();
                 $priceNode = $response->filter('.priceFinal')->last();
+                $promoNode = $response->filter('.code-promo-text')->first();
+                $availabilityNode = $response->filter('.cart-box')->first();
 
-                $availabilityClass = $availabilityNode->attr('class');
                 $priceContent = $priceNode->attr('content');
+                $promoText = $promoNode->filter('span')->last()->text();
+                $availabilityClass = $availabilityNode->attr('class');
 
                 $availability = explode(' ', $availabilityClass);
                 if ($availability[1] === 'en-stock') {
                     $product->update([
                         'price' => $priceContent,
+                        'promo_code' => $promoText,
                         'is_available' => true,
                     ]);
 
@@ -70,6 +73,7 @@ class CheckProductAvailability extends Command
                 } elseif ($availability[1] === 'en-cours-de-reappro') {
                     $product->update([
                         'price' => $priceContent,
+                        'promo_code' => $promoText,
                         'is_available' => false,
                     ]);
 
