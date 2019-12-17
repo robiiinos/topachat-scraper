@@ -86,7 +86,7 @@ class CheckProductAvailability extends Command
 
                     $this->info('This product has reached End Of Life (EOL) and will not be resupplied.');
                 } else {
-                    $this->info('Could not determine if the product is in stock or not; the key was : ' . $availability[1] . '.');
+                    $this->info('Could not determine if the product is in stock or not; the key was : ' . $availability . '.');
                 }
             } else {
                 // The product is not available anymore in their catalog.

@@ -17,8 +17,11 @@ class CreateProductsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name', 255);
             $table->longText('uri');
+            $table->bigInteger('price')->default(0);
+            $table->string('promo_code', 255)->nullable();
             $table->boolean('is_available')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
