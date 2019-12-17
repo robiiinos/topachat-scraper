@@ -16,7 +16,7 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 255);
-            $table->longText('url');
+            $table->longText('uri');
             $table->boolean('is_available')->default(false);
             $table->timestamps();
         });

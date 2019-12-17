@@ -6,11 +6,11 @@ use Symfony\Component\DomCrawler\Crawler;
 
 interface TopAchatRepositoryContract
 {
-    public function fetchProduct(string $url) : Crawler;
+    public function fetchProduct(string $uri) : Crawler;
 
-    public function getProductPrice(Crawler $crawler) : string;
+    public function getPrice(Crawler $crawler) : string;
 
-    public function getProductPromoCode(Crawler $crawler) : string;
+    public function getPromoCode(Crawler $crawler) : string;
 
-    public function getProductAvailability(Crawler $crawler) : string;
+    public function getAvailability(Crawler $crawler) : string;
 }

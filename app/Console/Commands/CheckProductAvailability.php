@@ -11,21 +11,21 @@ class CheckProductAvailability extends Command
     /**
      * @var TopAchatRepository
      */
-    private TopAchatRepository $topAchatRepository;
+    private $topAchatRepository;
 
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected string $signature = 'product:check';
+    protected $signature = 'product:check';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected string $description = 'Check a product information by scraping his url.';
+    protected $description = 'Check a product information by scraping his uri.';
 
     /**
      * Create a new command instance.
@@ -51,17 +51,17 @@ class CheckProductAvailability extends Command
         $products = Product::all();
         foreach ($products as $product)
         {
-            $productCrawler = $this->topAchatRepository->fetchProduct($product->url);
+            $productCrawler = $this->topAchatRepository->fetchProduct($product->uri);
 
             // As TopAchat return a 200 - OK instead of a 301 - Moved Permanently, the only way
             // to check if a product is not available anymore is to check if we have been
-            // redirected by checking the client response url.
+            // redirected by checking the client response uri.
 
-            $url = $productCrawler->getUri();
-            if ($url === $product->url) {
-                $price = $this->topAchatRepository->getProductPrice($productCrawler);
-                $promoCode = $this->topAchatRepository->getProductPromoCode($productCrawler);
-                $availability = $this->topAchatRepository->getProductAvailability($productCrawler);
+            $uri = $productCrawler->getUri();
+            if ($uri === $product->uri) {
+                $price = $this->topAchatRepository->getPrice($productCrawler);
+                $promoCode = $this->topAchatRepository->getPromoCode($productCrawler);
+                $availability = $this->topAchatRepository->getAvailability($productCrawler);
 
                 if ($availability === 'en-stock') {
                     $product->update([

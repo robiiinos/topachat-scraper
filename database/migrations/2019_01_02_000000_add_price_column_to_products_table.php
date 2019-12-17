@@ -14,7 +14,7 @@ class AddPriceColumnToProductsTable extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->bigInteger('price')->default(0)->after('url');
+            $table->bigInteger('price')->default(0)->after('uri');
         });
     }
 

@@ -12,14 +12,14 @@ class AddNewProduct extends Command
      *
      * @var string
      */
-    protected string $signature = 'product:new';
+    protected $signature = 'product:new';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected string $description = 'Create a new product.';
+    protected $description = 'Create a new product.';
 
     /**
      * Create a new command instance.
@@ -41,13 +41,13 @@ class AddNewProduct extends Command
         // Ask for the product name.
         $name = $this->ask('What is the product name ?');
 
-        // Ask for the product url.
-        $url = $this->ask('What is the product url ?');
+        // Ask for the product uri.
+        $uri = $this->ask('What is the product uri ?');
 
         if ($this->confirm('Do you want to add this product ?')) {
             Product::create([
                 'name' => $name,
-                'url' => $url,
+                'uri' => $uri,
             ]);
 
             $this->info('Product has been created.');
