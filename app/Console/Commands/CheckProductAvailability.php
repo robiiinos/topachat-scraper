@@ -3,24 +3,29 @@
 namespace App\Console\Commands;
 
 use App\Product;
-use Goutte\Client;
 use Illuminate\Console\Command;
+use App\Repositories\TopAchatRepository;
 
 class CheckProductAvailability extends Command
 {
+    /**
+     * @var TopAchatRepository
+     */
+    private TopAchatRepository $topAchatRepository;
+
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'product:check';
+    protected string $signature = 'product:check';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Check a product information by scraping his url.';
+    protected string $description = 'Check a product information by scraping his url.';
 
     /**
      * Create a new command instance.
@@ -30,6 +35,8 @@ class CheckProductAvailability extends Command
     public function __construct()
     {
         parent::__construct();
+
+        $this->topAchatRepository = new TopAchatRepository();
     }
 
     /**
@@ -44,41 +51,35 @@ class CheckProductAvailability extends Command
         $products = Product::all();
         foreach ($products as $product)
         {
-            $client = new Client();
-            $response = $client->request('GET', $product->url);
+            $productCrawler = $this->topAchatRepository->fetchProduct($product->url);
 
             // As TopAchat return a 200 - OK instead of a 301 - Moved Permanently, the only way
             // to check if a product is not available anymore is to check if we have been
             // redirected by checking the client response url.
 
-            $url = $response->getUri();
+            $url = $productCrawler->getUri();
             if ($url === $product->url) {
-                $priceNode = $response->filter('.priceFinal')->last();
-                $promoNode = $response->filter('.code-promo-text')->first();
-                $availabilityNode = $response->filter('.cart-box')->first();
+                $price = $this->topAchatRepository->getProductPrice($productCrawler);
+                $promoCode = $this->topAchatRepository->getProductPromoCode($productCrawler);
+                $availability = $this->topAchatRepository->getProductAvailability($productCrawler);
 
-                $priceContent = $priceNode->attr('content');
-                $promoText = $promoNode->filter('span')->last()->text();
-                $availabilityClass = $availabilityNode->attr('class');
-
-                $availability = explode(' ', $availabilityClass);
-                if ($availability[1] === 'en-stock') {
+                if ($availability === 'en-stock') {
                     $product->update([
-                        'price' => $priceContent,
-                        'promo_code' => $promoText,
+                        'price' => $price,
+                        'promo_code' => $promoCode,
                         'is_available' => true,
                     ]);
 
                     $this->info('This product is in stock.');
-                } elseif ($availability[1] === 'en-cours-de-reappro') {
+                } elseif ($availability === 'en-cours-de-reappro') {
                     $product->update([
-                        'price' => $priceContent,
-                        'promo_code' => $promoText,
+                        'price' => $price,
+                        'promo_code' => $promoCode,
                         'is_available' => false,
                     ]);
 
                     $this->info('This product is being resupplied (not in stock at the moment).');
-                } elseif ($availability[1] === 'stock-epuise') {
+                } elseif ($availability === 'stock-epuise') {
                     $product->update([
                         'is_available' => false,
                     ]);

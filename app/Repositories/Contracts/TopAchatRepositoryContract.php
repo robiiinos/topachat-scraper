@@ -6,7 +6,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 interface TopAchatRepositoryContract
 {
-    public function fetchProduct(string $url) : object;
+    public function fetchProduct(string $url) : Crawler;
 
     public function getProductPrice(Crawler $crawler) : string;
 

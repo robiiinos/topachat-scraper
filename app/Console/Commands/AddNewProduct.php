@@ -12,14 +12,14 @@ class AddNewProduct extends Command
      *
      * @var string
      */
-    protected $signature = 'product:new';
+    protected string $signature = 'product:new';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new product.';
+    protected string $description = 'Create a new product.';
 
     /**
      * Create a new command instance.
