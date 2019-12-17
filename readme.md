@@ -1,21 +1,51 @@
-# Lumen PHP Framework
+# topachat-scraper
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/lumen-framework/v/unstable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+TopAchat-scraper is a CLI software, written in PHP, that allows you to monitor products on [TopAchat](https://www.topachat.com/accueil/index.php).
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+With this software, you can :
 
-## Official Documentation
+ - Add a new product to your watchlist,
+ - Monitor the stock (or availability) of a product,
+ - Monitor the price (and if any promo code applies) of a product.
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+## Available commands
 
-## Security Vulnerabilities
+#### 1. Add a new product - `product:new`
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+This command let you add a new product, that is currently being sold by TopAchat.
+
+You will need to provide the name of the product, as well as his URL.
+
+```shell script
+$ php artisan product:new
+```
+
+*Note : you can also add products that were being sold by TopAchat at any given time in the past, but they will be set as `delisted` when the `product:check` runs.*
+
+#### 2. Add a new product - `product:check`
+
+This command will go through every product registered in the database, fetch his new attributes, save them; and print the current availability status in the console / log file.
+
+```shell script
+$ php artisan product:check
+```
+
+## To-Do
+
+[1] Auto-fetch the product attributes (price, promo code, & availability) when a new product is added.
+
+[2] Fetch the product name.
+
+[3] ~~Switch the database to [SQLite](https://www.sqlite.org/).~~ [(5818a3e)](https://github.com/robiiinos/topachat-scraper/commit/5818a3e09df2315d033ef69af450e561006481ae)
+
+[4] Add an optional argument to `product:new` to provide a product URL when calling the command (e.g. : `php artisan product:new --url={url}`).
+
+[5] Clean up all unused Lumen folders & files (including routes).
+
+[6] Add PHP-CS-Fixer.
+
+[7] Send email when a product attribute changes (price, with or without a promo code, & availability).
 
 ## License
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This is an open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
