@@ -38,7 +38,7 @@ $ php artisan product:check
 
 [3] ~~Switch the database to [SQLite](https://www.sqlite.org/).~~ [(5818a3e)](https://github.com/robiiinos/topachat-scraper/commit/5818a3e09df2315d033ef69af450e561006481ae)
 
-[4] Add an optional argument to `product:new` to provide a product URL when calling the command (e.g. : `php artisan product:new --url={url}`).
+[4] Add an optional argument to `product:new` to provide a product URL when calling the command (e.g. : `php artisan product:new --uri={uri}`).
 
 [5] Clean up all unused Lumen folders & files (including routes).
 
