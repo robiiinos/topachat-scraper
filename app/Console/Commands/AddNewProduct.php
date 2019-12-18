@@ -52,12 +52,13 @@ class AddNewProduct extends Command
 
             $productCrawler = $this->topAchatRepository->fetchProduct($uri);
 
+            $name = $this->topAchatRepository->getName($productCrawler);
             $price = $this->topAchatRepository->getPrice($productCrawler);
             $promoCode = $this->topAchatRepository->getPromoCode($productCrawler);
             $availability = $this->topAchatRepository->getAvailability($productCrawler);
 
             Product::create([
-                'name' => '',
+                'name' => $name,
                 'uri' => $uri,
                 'price' => $price,
                 'promo_code' => $promoCode,

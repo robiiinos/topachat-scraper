@@ -15,6 +15,13 @@ class TopAchatRepository implements TopAchatRepositoryContract
         return $client->request('GET', $uri);
     }
 
+    public function getName(Crawler $crawler) : string
+    {
+        $priceNode = $crawler->filter('.fn')->last();
+
+        return $priceNode->text();
+    }
+
     public function getPrice(Crawler $crawler) : string
     {
         $priceNode = $crawler->filter('.priceFinal')->last();
