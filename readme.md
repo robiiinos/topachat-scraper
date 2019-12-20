@@ -14,10 +14,15 @@ With this software, you can :
 
 This command let you add a new product, that is currently being sold by TopAchat.
 
-You will need to provide the name of the product, as well as his URL.
+You will need to provide the name of the product, as well as his URI.
 
-```shell script
+```shell scriptg
+# Execute the command and ask for name / uri.
 $ php artisan product:new
+
+# Execute the command with the provided uri.
+$ php artisan product:new -uri={URI}
+
 ```
 
 *Note : you can also add products that were being sold by TopAchat at any given time in the past, but they will be set as `delisted` when the `product:check` runs.*
@@ -34,11 +39,11 @@ $ php artisan product:check
 
 [1] Auto-fetch the product attributes (price, promo code, & availability) when a new product is added.
 
-[2] Fetch the product name.
+[2] ~~Fetch the product name.~~ [(5d21e17)](https://github.com/robiiinos/topachat-scraper/commit/5d21e17e9441c44f043640d92598563762e7da5e)
 
 [3] ~~Switch the database to [SQLite](https://www.sqlite.org/).~~ [(5818a3e)](https://github.com/robiiinos/topachat-scraper/commit/5818a3e09df2315d033ef69af450e561006481ae)
 
-[4] Add an optional argument to `product:new` to provide a product URL when calling the command (e.g. : `php artisan product:new --uri={uri}`).
+[4] ~~Add an optional argument to `product:new` to provide a product URI when calling the command (e.g. : `php artisan product:new --uri={URI}`).~~ [(7e91acf)](https://github.com/robiiinos/topachat-scraper/commit/7e91acfb6935b1738983d00bfbf9e9380097e7c1)
 
 [5] Clean up all unused Lumen folders & files (including routes).
 
