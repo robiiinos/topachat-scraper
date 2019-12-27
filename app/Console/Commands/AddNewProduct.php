@@ -47,16 +47,26 @@ class AddNewProduct extends Command
     public function handle()
     {
         $uri = $this->option('uri');
-        if ($uri) {
-            $this->info('Fetching product…');
+        if (!$uri) {
+            // Ask for the product uri.
+            $uri = $this->ask('What is the product uri ?');
+        }
 
-            $productCrawler = $this->topAchatRepository->fetchProduct($uri);
+        $productCrawler = $this->topAchatRepository->fetchProduct($uri);
 
-            $name = $this->topAchatRepository->getName($productCrawler);
-            $price = $this->topAchatRepository->getPrice($productCrawler);
-            $promoCode = $this->topAchatRepository->getPromoCode($productCrawler);
-            $availability = $this->topAchatRepository->getAvailability($productCrawler);
+        $name = $this->topAchatRepository->getName($productCrawler);
+        $price = $this->topAchatRepository->getPrice($productCrawler);
+        $promoCode = $this->topAchatRepository->getPromoCode($productCrawler);
+        $availability = $this->topAchatRepository->getAvailability($productCrawler);
 
+        $this->alert('Name : ' . $name);
+        $this->warn('Price : ' . $price . ' €');
+        if ($promoCode) {
+            $this->warn('Promo code : ' . $promoCode);
+        }
+        $this->warn('Availability : ' . $availability);
+
+        if ($this->confirm('Do you want to add this product ?')) {
             Product::create([
                 'name' => $name,
                 'uri' => $uri,
@@ -64,21 +74,6 @@ class AddNewProduct extends Command
                 'promo_code' => $promoCode,
                 'availability' => $availability,
             ]);
-        } else {
-            // Ask for the product name.
-            $name = $this->ask('What is the product name ?');
-
-            // Ask for the product uri.
-            $uri = $this->ask('What is the product uri ?');
-
-            if ($this->confirm('Do you want to add this product ?')) {
-                Product::create([
-                    'name' => $name,
-                    'uri' => $uri,
-                ]);
-
-                $this->info('Product has been created.');
-            }
         }
     }
 }
