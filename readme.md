@@ -14,14 +14,14 @@ With this software, you can :
 
 This command let you add a new product, that is currently being sold by TopAchat.
 
-You will need to provide the name of the product, as well as his URI.
+You will need to provide the URI of the product, through the command line shell or a command line option. You will be prompted the product information at the end before allowing the script to store the product in the database, or not.
 
-```shell scriptg
-# Execute the command and ask for name / uri.
+```shell script
+# Execute the command and ask uri.
 $ php artisan product:new
 
 # Execute the command with the provided uri.
-$ php artisan product:new -uri={URI}
+$ php artisan product:new --uri={URI}
 
 ```
 
@@ -37,7 +37,7 @@ $ php artisan product:check
 
 ## To-Do
 
-[1] Auto-fetch the product attributes (price, promo code, & availability) when a new product is added.
+[1] ~~Auto-fetch the product attributes (price, promo code, & availability) when a new product is added.~~ [(768d2a7)](https://github.com/robiiinos/topachat-scraper/commit/768d2a734e9d75297a203b2f878d1200f4aa9f3b)
 
 [2] ~~Fetch the product name.~~ [(5d21e17)](https://github.com/robiiinos/topachat-scraper/commit/5d21e17e9441c44f043640d92598563762e7da5e)
 
@@ -49,7 +49,9 @@ $ php artisan product:check
 
 [6] Add PHP-CS-Fixer.
 
-[7] Send email when a product attribute changes (price, with or without a promo code, & availability).
+[7] ~~Send email when a product attribute changes (price, with or without a promo code, & availability).~~ [(96eec1d)](https://github.com/robiiinos/topachat-scraper/commit/96eec1d2339b539b73918073404d6a1fe742f0b5)
+
+[8] Add configuration from ConfigoMatic.
 
 ## License
 
