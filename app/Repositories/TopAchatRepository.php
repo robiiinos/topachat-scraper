@@ -29,11 +29,15 @@ class TopAchatRepository implements TopAchatRepositoryContract
         return $priceNode->attr('content');
     }
 
-    public function getPromoCode(Crawler $crawler) : string
+    public function getPromoCode(Crawler $crawler) : ?string
     {
-        $promoNode = $crawler->filter('.code-promo-text')->first();
+        try {
+            $promoNode = $crawler->filter('.code-promo-text')->first();
 
-        return $promoNode->filter('span')->last()->text();
+            return $promoNode->filter('span')->last()->text();
+        } catch (\InvalidArgumentException $exception) {
+            return null;
+        }
     }
 
     public function getAvailability(Crawler $crawler) : string

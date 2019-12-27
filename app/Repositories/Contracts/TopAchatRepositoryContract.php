@@ -12,7 +12,7 @@ interface TopAchatRepositoryContract
 
     public function getPrice(Crawler $crawler) : string;
 
-    public function getPromoCode(Crawler $crawler) : string;
+    public function getPromoCode(Crawler $crawler) : ?string;
 
     public function getAvailability(Crawler $crawler) : string;
 }
