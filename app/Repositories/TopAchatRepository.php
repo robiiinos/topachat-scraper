@@ -45,6 +45,5 @@ class TopAchatRepository implements TopAchatRepositoryContract
         $availability = explode(' ', $availabilityClass);
 
         return $availability[1];
-
     }
 }

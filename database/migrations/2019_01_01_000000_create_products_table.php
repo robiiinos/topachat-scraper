@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->longText('uri');
             $table->bigInteger('price')->default(0);
             $table->string('promo_code', 255)->nullable();
-            $table->boolean('is_available')->default(false);
+            $table->string('availability', 255)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

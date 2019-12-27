@@ -62,7 +62,7 @@ class AddNewProduct extends Command
                 'uri' => $uri,
                 'price' => $price,
                 'promo_code' => $promoCode,
-                'is_available' => $availability === 'en-stock' ? true : false,
+                'availability' => $availability,
             ]);
         } else {
             // Ask for the product name.

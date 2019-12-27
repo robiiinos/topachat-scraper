@@ -25,6 +25,9 @@ $app = new Laravel\Lumen\Application(
 
 $app->withEloquent();
 
+$app->configure('mail');
+$app->configure('services');
+
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -73,6 +76,8 @@ $app->singleton(
 */
 
 $app->register(App\Providers\AppServiceProvider::class);
+
+$app->register(Illuminate\Mail\MailServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

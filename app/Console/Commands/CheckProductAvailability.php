@@ -2,9 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\ProductUpdate;
 use App\Product;
 use Illuminate\Console\Command;
 use App\Repositories\TopAchatRepository;
+use Illuminate\Support\Facades\Mail;
 
 class CheckProductAvailability extends Command
 {
@@ -59,42 +61,31 @@ class CheckProductAvailability extends Command
 
             $uri = $productCrawler->getUri();
             if ($uri === $product->uri) {
+                $name = $this->topAchatRepository->getName($productCrawler);
+
                 $price = $this->topAchatRepository->getPrice($productCrawler);
                 $promoCode = $this->topAchatRepository->getPromoCode($productCrawler);
+
                 $availability = $this->topAchatRepository->getAvailability($productCrawler);
 
-                if ($availability === 'en-stock') {
-                    $product->update([
-                        'price' => $price,
-                        'promo_code' => $promoCode,
-                        'is_available' => true,
-                    ]);
+                // Update the current model.
+                $product->name = $name;
+                $product->price = $price;
+                $product->promo_code = $promoCode;
+                $product->availability = $availability;
 
-                    $this->info('This product is in stock.');
-                } elseif ($availability === 'en-cours-de-reappro') {
-                    $product->update([
-                        'price' => $price,
-                        'promo_code' => $promoCode,
-                        'is_available' => false,
-                    ]);
+                if ($product->isDirty()) {
+                    // Send a email with the previous attribute value.
+                    Mail::send(new ProductUpdate($product, $product->getOriginal('availability')));
 
-                    $this->info('This product is being resupplied (not in stock at the moment).');
-                } elseif ($availability === 'stock-epuise') {
-                    $product->update([
-                        'is_available' => false,
-                    ]);
-
-                    $this->info('This product has reached End Of Life (EOL) and will not be resupplied.');
-                } else {
-                    $this->info('Could not determine if the product is in stock or not; the key was : ' . $availability . '.');
+                    $product->save();
                 }
             } else {
                 // The product is not available anymore in their catalog.
-                $product->update([
-                    'is_available' => false,
-                ]);
-
+                $product->availability = 'delisted';
                 $product->delete();
+
+                Mail::send(new ProductUpdate($product, $product->getOriginal('availability')));
 
                 $this->info('This product has been delisted.');
             }

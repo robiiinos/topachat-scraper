@@ -22,16 +22,7 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'uri', 'price', 'promo_code', 'is_available',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'is_available' => 'boolean',
+        'name', 'uri', 'price', 'promo_code', 'availability',
     ];
 
     /**
