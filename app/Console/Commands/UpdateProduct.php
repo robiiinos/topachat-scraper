@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 use App\Repositories\TopAchatRepository;
 use Illuminate\Support\Facades\Mail;
 
-class CheckProductAvailability extends Command
+class UpdateProduct extends Command
 {
     /**
      * @var TopAchatRepository
@@ -20,14 +20,14 @@ class CheckProductAvailability extends Command
      *
      * @var string
      */
-    protected $signature = 'product:check';
+    protected $signature = 'product:update';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Check a product information by scraping his uri.';
+    protected $description = 'Update a product information by scraping his uri.';
 
     /**
      * Create a new command instance.

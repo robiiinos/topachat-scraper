@@ -10,34 +10,34 @@ With this software, you can :
 
 ## Available commands
 
-#### 1. Add a new product - `product:new`
+#### 1. Create a new product - `product:create`
 
-This command let you add a new product, that is currently being sold by TopAchat.
+This command let you create a new product, that is currently being sold by TopAchat.
 
 You will need to provide the URI of the product, through the command line shell or a command line option. You will be prompted the product information at the end before allowing the script to store the product in the database, or not.
 
 ```shell script
 # Execute the command and ask uri.
-$ php artisan product:new
+$ php artisan product:create
 
 # Execute the command with the provided uri.
-$ php artisan product:new --uri={URI}
+$ php artisan product:create --uri={URI}
 
 ```
 
 *Note : you can also add products that were being sold by TopAchat at any given time in the past, but they will be set as `delisted` when the `product:check` runs.*
 
-#### 2. Add a new product - `product:check`
+#### 2. Update every products - `product:update`
 
 This command will go through every product registered in the database, fetch his new attributes, save them; and print the current availability status in the console / log file.
 
 ```shell script
-$ php artisan product:check
+$ php artisan product:update
 ```
 
 ## To-Do
 
-[1] ~~Auto-fetch the product attributes (price, promo code, & availability) when a new product is added.~~ [(768d2a7)](https://github.com/robiiinos/topachat-scraper/commit/768d2a734e9d75297a203b2f878d1200f4aa9f3b)
+[1] ~~Auto-fetch the product attributes (price, promo code, & availability) when a new product is created.~~ [(768d2a7)](https://github.com/robiiinos/topachat-scraper/commit/768d2a734e9d75297a203b2f878d1200f4aa9f3b)
 
 [2] ~~Fetch the product name.~~ [(5d21e17)](https://github.com/robiiinos/topachat-scraper/commit/5d21e17e9441c44f043640d92598563762e7da5e)
 
@@ -51,7 +51,7 @@ $ php artisan product:check
 
 [7] ~~Send email when a product attribute changes (price, with or without a promo code, & availability).~~ [(96eec1d)](https://github.com/robiiinos/topachat-scraper/commit/96eec1d2339b539b73918073404d6a1fe742f0b5)
 
-[8] Add configuration from ConfigoMatic.
+[8] Create configuration products fetching from ConfigoMatic.
 
 ## License
 

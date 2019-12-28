@@ -6,7 +6,7 @@ use App\Product;
 use App\Repositories\TopAchatRepository;
 use Illuminate\Console\Command;
 
-class AddNewProduct extends Command
+class CreateProduct extends Command
 {
     /**
      * @var TopAchatRepository
@@ -18,14 +18,14 @@ class AddNewProduct extends Command
      *
      * @var string
      */
-    protected $signature = 'product:new {--uri=}';
+    protected $signature = 'product:create {--uri=}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new product.';
+    protected $description = 'Create a product.';
 
     /**
      * Create a new command instance.
@@ -62,7 +62,7 @@ class AddNewProduct extends Command
         }
         $this->warn('Availability : ' . $productAttr['availability']);
 
-        if ($this->confirm('Do you want to add this product ?')) {
+        if ($this->confirm('Do you want to create this product ?')) {
             Product::create([
                 'name' => $productAttr['name'],
                 'uri' => $uri,

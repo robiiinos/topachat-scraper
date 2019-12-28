@@ -2,8 +2,8 @@
 
 namespace App\Console;
 
-use App\Console\Commands\AddNewProduct;
-use App\Console\Commands\CheckProductAvailability;
+use App\Console\Commands\CreateProduct;
+use App\Console\Commands\UpdateProduct;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 
@@ -15,8 +15,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        AddNewProduct::class,
-        CheckProductAvailability::class,
+        CreateProduct::class,
+        UpdateProduct::class,
     ];
 
     /**
@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule
-            ->command(CheckProductAvailability::class)
+            ->command(UpdateProduct::class)
             ->hourly();
     }
 }
