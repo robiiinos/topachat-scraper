@@ -48,8 +48,10 @@ class CreateProduct extends Command
     {
         $uri = $this->option('uri');
         if (!$uri) {
-            // Ask for the product uri.
-            $uri = $this->ask('What is the product uri ?');
+            do {
+                // Ask for the product uri.
+                $uri = $this->ask('What is the product uri ?', null);
+            } while ($uri === null);
         }
 
         $productCrawler = $this->topAchatRepository->fetchProduct($uri);
