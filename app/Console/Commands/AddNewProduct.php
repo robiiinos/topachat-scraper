@@ -53,26 +53,22 @@ class AddNewProduct extends Command
         }
 
         $productCrawler = $this->topAchatRepository->fetchProduct($uri);
+        $productAttr = $this->topAchatRepository->getAttributes($productCrawler);
 
-        $name = $this->topAchatRepository->getName($productCrawler);
-        $price = $this->topAchatRepository->getPrice($productCrawler);
-        $promoCode = $this->topAchatRepository->getPromoCode($productCrawler);
-        $availability = $this->topAchatRepository->getAvailability($productCrawler);
-
-        $this->alert('Name : ' . $name);
-        $this->warn('Price : ' . $price . ' €');
-        if ($promoCode) {
-            $this->warn('Promo code : ' . $promoCode);
+        $this->alert('Name : ' . $productAttr['name']);
+        $this->warn('Price : ' . $productAttr['price'] . ' €');
+        if ($productAttr['promoCode']) {
+            $this->warn('Promo code : ' . $productAttr['promoCode']);
         }
-        $this->warn('Availability : ' . $availability);
+        $this->warn('Availability : ' . $productAttr['availability']);
 
         if ($this->confirm('Do you want to add this product ?')) {
             Product::create([
-                'name' => $name,
+                'name' => $productAttr['name'],
                 'uri' => $uri,
-                'price' => $price,
-                'promo_code' => $promoCode,
-                'availability' => $availability,
+                'price' => $productAttr['price'],
+                'promo_code' => $productAttr['promoCode'],
+                'availability' => $productAttr['availability'],
             ]);
         }
     }

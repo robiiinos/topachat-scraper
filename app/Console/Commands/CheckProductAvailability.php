@@ -61,18 +61,13 @@ class CheckProductAvailability extends Command
 
             $uri = $productCrawler->getUri();
             if ($uri === $product->uri) {
-                $name = $this->topAchatRepository->getName($productCrawler);
-
-                $price = $this->topAchatRepository->getPrice($productCrawler);
-                $promoCode = $this->topAchatRepository->getPromoCode($productCrawler);
-
-                $availability = $this->topAchatRepository->getAvailability($productCrawler);
+                $productAttr = $this->topAchatRepository->getAttributes($productCrawler);
 
                 // Update the current model.
-                $product->name = $name;
-                $product->price = $price;
-                $product->promo_code = $promoCode;
-                $product->availability = $availability;
+                $product->name = $productAttr['name'];
+                $product->price = $productAttr['price'];
+                $product->promo_code = $productAttr['promoCode'];
+                $product->availability = $productAttr['availability'];
 
                 if ($product->isDirty()) {
                     // Send a email with the previous attribute value.

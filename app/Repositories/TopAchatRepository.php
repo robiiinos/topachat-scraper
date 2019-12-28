@@ -15,21 +15,31 @@ class TopAchatRepository implements TopAchatRepositoryContract
         return $client->request('GET', $uri);
     }
 
-    public function getName(Crawler $crawler) : string
+    public function getAttributes(Crawler $crawler) : array
+    {
+        return [
+            'name' => $this->getName($crawler),
+            'price' => $this->getPrice($crawler),
+            'promoCode' => $this->getPromoCode($crawler),
+            'availability' => $this->getAvailability($crawler),
+        ];
+    }
+
+    private function getName(Crawler $crawler) : string
     {
         $priceNode = $crawler->filter('.fn')->last();
 
         return $priceNode->text();
     }
 
-    public function getPrice(Crawler $crawler) : string
+    private function getPrice(Crawler $crawler) : string
     {
         $priceNode = $crawler->filter('.priceFinal')->last();
 
         return $priceNode->attr('content');
     }
 
-    public function getPromoCode(Crawler $crawler) : ?string
+    private function getPromoCode(Crawler $crawler) : ?string
     {
         try {
             $promoNode = $crawler->filter('.code-promo-text')->first();
@@ -40,7 +50,7 @@ class TopAchatRepository implements TopAchatRepositoryContract
         }
     }
 
-    public function getAvailability(Crawler $crawler) : string
+    private function getAvailability(Crawler $crawler) : string
     {
         $availabilityNode = $crawler->filter('.cart-box')->first();
 
