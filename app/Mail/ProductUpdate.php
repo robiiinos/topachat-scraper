@@ -19,25 +19,37 @@ class ProductUpdate extends Mailable
     public $product;
 
     /**
-     * The product previous availability.
+     * The product previous attributes.
      *
-     * @var string
+     * @var array
      */
-    public $previousAvailability;
+    public $original;
+
+    /**
+     * The product changed attributes.
+     *
+     * @var array
+     */
+    public $changes;
 
     /**
      * Create a new message instance.
      *
      * @param Product $product
-     * @param string $previousAvailability
+     * @param array $original
+     * @param array $changes
      *
      * @return void
      */
-    public function __construct(Product $product, string $previousAvailability)
+    public function __construct(Product $product, array $original, array $changes)
     {
         $this->product = $product;
 
-        $this->previousAvailability = $previousAvailability;
+        $this->original = $original;
+
+        $this->changes = $changes;
+
+        unset($this->changes['updated_at']);
     }
 
     /**
@@ -51,7 +63,8 @@ class ProductUpdate extends Mailable
             ->subject($this->product->availability . ' - ' . $this->product->name)
             ->markdown('mail.product.update')
             ->with([
-                'previousAvailability' => $this->previousAvailability,
+                'original' => $this->original,
+                'changes' => $this->changes,
             ]);
     }
 }

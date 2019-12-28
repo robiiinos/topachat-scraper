@@ -6,6 +6,7 @@ use App\Mail\ProductUpdate;
 use App\Product;
 use Illuminate\Console\Command;
 use App\Repositories\TopAchatRepository;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class UpdateProduct extends Command
@@ -68,21 +69,20 @@ class UpdateProduct extends Command
                 $product->price = $productAttr['price'];
                 $product->promo_code = $productAttr['promoCode'];
                 $product->availability = $productAttr['availability'];
-
-                if ($product->isDirty()) {
-                    // Send a email with the previous attribute value.
-                    Mail::send(new ProductUpdate($product, $product->getOriginal('availability')));
-
-                    $product->save();
-                }
             } else {
                 // The product is not available anymore in their catalog.
                 $product->availability = 'delisted';
+
                 $product->delete();
+            }
 
-                Mail::send(new ProductUpdate($product, $product->getOriginal('availability')));
+            if ($product->isDirty()) {
+                $original = $product->getOriginal();
 
-                $this->info('This product has been delisted.');
+                $product->save();
+
+                // Send a email with the previous attribute value.
+                Mail::send(new ProductUpdate($product, $original, $product->getChanges()));
             }
         }
     }
