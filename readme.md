@@ -25,7 +25,7 @@ $ php artisan product:create --uri={URI}
 
 ```
 
-*Note : you can also add products that were being sold by TopAchat at any given time in the past, but they will be set as `delisted` when the `product:check` runs.*
+*Note : you can also add products that were being sold by TopAchat at any given time in the past, but they will be set as `delisted` when the `product:update` runs.*
 
 #### 2. Update every products - `product:update`
 

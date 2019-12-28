@@ -1,7 +1,7 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
-    "keywords": ["framework", "laravel", "lumen"],
+    "name": "robiiinos/topachat-scraper",
+    "description": "Keep an eye on TopAchat product with this tool.",
+    "keywords": ["topachat"],
     "license": "MIT",
     "type": "project",
     "require": {

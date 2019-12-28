@@ -49,7 +49,7 @@ class ProductUpdate extends Mailable
 
         $this->changes = $changes;
 
-        unset($this->changes['updated_at']);
+        unset($this->changes['created_at'], $this->changes['updated_at'], $this->changes['deleted_at']);
     }
 
     /**
@@ -61,8 +61,7 @@ class ProductUpdate extends Mailable
     {
         return $this
             ->subject($this->product->availability . ' - ' . $this->product->name)
-            ->markdown('mail.product.update')
-            ->with([
+            ->view('mail.product.update', [
                 'original' => $this->original,
                 'changes' => $this->changes,
             ]);
